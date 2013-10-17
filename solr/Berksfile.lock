@@ -1,0 +1,28 @@
+{
+  "sources": {
+    "hipsnip-solr": {
+      "path": "."
+    },
+    "apt": {
+      "locked_version": "2.1.0"
+    },
+    "minitest-handler": {
+      "locked_version": "0.2.1"
+    },
+    "hipsnip-solr_test": {
+      "path": "./test/cookbooks/hipsnip-solr_test"
+    },
+    "hipsnip-jetty": {
+      "locked_version": "0.8.0"
+    },
+    "java": {
+      "locked_version": "1.10.0"
+    },
+    "windows": {
+      "locked_version": "1.10.0"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
+    }
+  }
+}
