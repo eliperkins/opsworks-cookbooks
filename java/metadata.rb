@@ -30,6 +30,3 @@ recipe "java::oracle_rpm", "Installs the Oracle RPM flavor of Java"
 }.each do |os|
   supports os
 end
-
-depends "windows"
-depends "aws"
