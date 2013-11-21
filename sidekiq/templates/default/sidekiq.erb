@@ -97,7 +97,7 @@ fi
 #Baisc Setup of default values
 APP=$1 ; ACTION=$2; RACK_ENV=$3; CONF_FILE=$4;
 
-APP_DIR="/data/${APP}"
+APP_DIR="/srv/www/${APP}"
 APP_ROOT="${APP_DIR}/current"
 APP_SHARED="${APP_DIR}/shared"
 APP_CONFIG="${APP_SHARED}/config"
@@ -105,14 +105,14 @@ APP_CONFIG="${APP_SHARED}/config"
 if [ -e "${APP_CONFIG}/${CONF_FILE}" ]; then
   logger -t "sidekiq_${APP}" -s "Good, found a conf file. Proceeding..."
 else
-  logger -t "sidekiq_${APP}" -s "/data/${APP}/shared/config/${CONF_FILE} not found for app: ${APP}"
+  logger -t "sidekiq_${APP}" -s "/srv/www/${APP}/shared/config/${CONF_FILE} not found for app: ${APP}"
   exit 1
 fi
 
 WORKER_REF=`echo $CONF_FILE | sed s/.yml//`
 LOG_FILE="$APP_ROOT/log/$WORKER_REF.log"
 LOCK_FILE="/tmp/$WORKER_REF.monit-lock"
-PID_FILE="/var/run/engineyard/sidekiq/$APP/$WORKER_REF.pid"
+PID_FILE="/srv/www/$APP/$WORKER_REF.pid"
 GEMFILE="$APP_ROOT/Gemfile"
 SIDEKIQ="sidekiq"
 if [ -f $GEMFILE ];then
@@ -130,8 +130,8 @@ if [ -d $APP_ROOT ]; then
   # Older versions of sudo need us to call env for the env vars to be set correctly
   COMMAND="/usr/bin/env $V $VV APP_ROOT=${APP_ROOT} RACK_ENV=${RACK_ENV} RAILS_ENV=${RACK_ENV} $SIDEKIQ -e ${RACK_ENV} -C ${APP_CONFIG}/${CONF_FILE}"
   
-  if [ ! -d /var/run/engineyard/sidekiq/$APP ]; then
-    mkdir -p /var/run/engineyard/sidekiq/$APP
+  if [ ! -d /srv/www/sidekiq/$APP ]; then
+    mkdir -p /srv/www/sidekiq/$APP
   fi
 
   # handle the second param, don't start if already existing

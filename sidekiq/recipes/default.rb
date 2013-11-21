@@ -26,14 +26,14 @@ node[:deploy].each do |application, deploy|
   end
 
   worker_count.times do |count|
-    template "#{deploy[:deploy_to]}/shared/config/sidekiq_#{count}.yml" do
+    template "/srv/www/#{application}/shared/config/sidekiq_#{count}.yml" do
       group deploy[:group]
       owner deploy[:user]
 
       mode 0644
       source "sidekiq.yml.erb"
       variables({
-        :require => "#{deploy[:deploy_to]}/current"
+        :require => "/srv/www/#{application}/current"
       })
     end
   end
