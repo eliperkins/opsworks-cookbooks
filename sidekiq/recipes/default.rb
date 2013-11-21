@@ -6,14 +6,14 @@
 worker_count = 1
 
 node[:deploy].each do |application, deploy|
-  template "/etc/monit.d/sidekiq_#{app}.monitrc" do 
+  template "/etc/monit.d/sidekiq_#{application}.monitrc" do 
     owner 'root' 
     group 'root' 
     mode 0644 
     source "monitrc.conf.erb" 
     variables({ 
       :num_workers => worker_count,
-      :app_name => app, 
+      :app_name => application, 
       :rails_env => deploy[:rails_env] 
     }) 
   end
@@ -46,7 +46,7 @@ node[:deploy].each do |application, deploy|
 
   execute "restart-sidekiq" do 
     command %Q{ 
-      echo "sleep 20 && monit -g #{app}_sidekiq restart all" | at now 
+      echo "sleep 20 && monit -g #{application}_sidekiq restart all" | at now 
     }
   end
 end
